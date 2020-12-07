@@ -8,13 +8,15 @@ public class Cashflow
     public long Rate { get; set; }
     public int Term { get; set; }
     public List<Period> Payments { get; set; }
+    public string Type { get; set;}
 
-    public CashFlow(int id, long principal, int term, long rate){
+    public CashFlow(int id, long principal, int term, long rate, string type){
         Id = id;
         Principal = principal;
         Term = term;
         Rate = rate;
         Payments = new List<Period>();
+        Type = type;
     }
     
 }
