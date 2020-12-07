@@ -13,7 +13,6 @@ class LoanService
         Dictionary<int, Cashflow> cashflowById = new Dictionary<int, Cashflow>();
         
         int longestLoan = 0;
-
         foreach (LoanItem loan in TagLoans) {
             remainingBalanceById.Add(loan.Id, loan.Principal);
             monthlyPaymentById.Add(loan.Id, loan.Principal * (loan.Rate/1200) / (1 - Math.Pow((1 + loan.Rate/1200), (-1 * loan.Term))));
@@ -27,7 +26,6 @@ class LoanService
         Cashflow aggregateCashflow = new Cashflow(0, 0, 0, 0, AGGREGATE_TYPE);
 
         int i = 0;
-
         while (i < longestLoan) {
             double aggregateInterest = 0;
             double aggregatePrincipal = 0;
@@ -64,13 +62,12 @@ class LoanService
             cashflowList.Add(cashflow);
         };
 
-        
-
         // Only add aggregate if there are multiple cashflows
         if (TagLoans.Count != 1) {
             cashflowList.Add(aggregateCashflow);
         };
 
         return cashflowList;
+
     }
 }
