@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CashflowApi.Models;
+using HttpUtility = System.Web.HttpUtility;
 
 namespace CashflowApi.Controllers
 {
@@ -31,7 +32,10 @@ namespace CashflowApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LoanItem>>> GetCashFlows()
         {
-            return await _context.LoanItems.ToListAsync();
+            string _ids = HttpUtility.ParseQueryString(Request.QueryString.ToString()).Get("_ids");
+            List<int> TagIds = _ids.Split(',').Select(int.Parse).ToList();
+            List<LoanItem> TagLoans = await _context.LoanItems.Where(loan => TagIds.contains(loan.Id))ToList();
+            return CalculateCashFlow(TagLoans);
         }
 
         // GET: api/LoanItems/5
