@@ -34,8 +34,9 @@ namespace CashflowApi.Controllers
         {
             string _ids = HttpUtility.ParseQueryString(Request.QueryString.ToString()).Get("_ids");
             List<int> TagIds = _ids.Split(',').Select(int.Parse).ToList();
-            List<LoanItem> TagLoans = await _context.LoanItems.Where(loan => TagIds.contains(loan.Id))ToList();
-            return CalculateCashFlow(TagLoans);
+            List<LoanItem> TagLoans = _context.LoanItems.Where(loan => TagIds.Contains(loan.Id)).ToList();
+            LoanService service = new LoanService();
+            return service.CalculateCashflows(TagLoans);
         }
 
         // GET: api/LoanItems/5
