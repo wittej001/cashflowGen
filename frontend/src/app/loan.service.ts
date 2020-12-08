@@ -10,7 +10,8 @@ import { Loan } from './Loan';
 })
 export class LoanService {
 
-  private url = 'api/';  // URL to web api
+  private url = 'https://localhost:5001/api/LoanItems';  // URL to web api
+  private cashflowUrl = 'https://localhost:5001/api/LoanItems/AllCashflow';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -19,7 +20,7 @@ export class LoanService {
   
   /** GET heroes from the server */
   getAllData(): Observable<Loan[]> {
-    return this.http.get<Loan[]>(this.url)
+    return this.http.get<Loan[]>(this.cashflowUrl)
       .pipe(
         tap(_ => this.log('fetched heroes')),
         catchError(this.handleError<Loan[]>('getHeroes', []))
@@ -38,7 +39,7 @@ export class LoanService {
     const id = typeof loan === 'number' ? loan : loan.id;
     const idUrl = `${this.url}/${id}`;
 
-    return this.http.delete<Loan>(idUrl, this.httpOptions).pipe(
+    return this.http.delete<Loan>(this.url, this.httpOptions).pipe(
       tap(_ => this.log(`deleted loan id=${id}`)),
       catchError(this.handleError<Loan>('deleteLoan'))
     );
