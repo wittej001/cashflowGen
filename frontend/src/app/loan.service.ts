@@ -15,7 +15,7 @@ export class LoanService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient,) { }
+  constructor(private http: HttpClient) { }
   
   /** GET heroes from the server */
   getAllData(): Observable<Loan[]> {
@@ -25,6 +25,16 @@ export class LoanService {
         catchError(this.handleError<Loan[]>('getHeroes', []))
       );
   }
+
+  /** POST: add a new hero to the server */
+  addLoan(loan: Loan): Observable<Loan> {
+    return this.http.post<Loan>(this.url, loan, this.httpOptions).pipe(
+      tap((newLoan: Loan) => this.log(`added hero w/ id=${newLoan.id}`)),
+      catchError(this.handleError<Loan>('addHero'))
+    );
+  }
+
+
 
   /** Log a HeroService message with the MessageService */
   private log(message: string) {
