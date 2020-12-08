@@ -31,6 +31,16 @@ export class LoanService {
     console.log(message);
   }
 
+  deleteLoan(loan: Loan | number): Observable<Loan>{
+    const id = typeof loan === 'number' ? loan : loan.id;
+    const idUrl = `${this.url}/${id}`;
+
+    return this.http.delete<Loan>(this.url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted loan id=${id}`)),
+      catchError(this.handleError<Loan>('deleteLoan'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.

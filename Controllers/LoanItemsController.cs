@@ -41,7 +41,7 @@ namespace CashflowApi.Controllers
         
         // GET: api/LoanItems/AllCashflows
         [HttpGet("AllCashflows")]
-        public async Task<IEnumerable<Cashflow>> GetCashFlows()
+        public async Task<IEnumerable<Cashflow>> GetAllCashFlows()
         {
             List<LoanItem> TagLoans = await _context.LoanItems.ToListAsync();
             LoanService service = new LoanService();

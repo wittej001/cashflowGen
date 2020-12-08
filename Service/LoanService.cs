@@ -65,7 +65,7 @@ class LoanService
 
     }
     //finds the longesr loan and catergorizes the loans into dictionaries by id 
-    public int FindLongestLoam(List<LoanItem> TagLoans){
+    public int FindLongestLoan(List<LoanItem> TagLoans){
         int longestLoan = 0;
         foreach (LoanItem loan in TagLoans) {
             remainingBalanceById.Add(loan.Id, loan.Principal);
