@@ -29,7 +29,7 @@ namespace CashflowApi.Controllers
         }
 
         // GET: api/LoanItems/CashFlows?_ids=1,2,3,4
-        [HttpGet("Cashflow")]
+        [HttpGet("Cashflows")]
         public async Task<IEnumerable<Cashflow>> GetCashFlows()
         {
             string _ids = HttpUtility.ParseQueryString(Request.QueryString.ToString()).Get("_ids");

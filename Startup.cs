@@ -32,11 +32,22 @@ namespace CashflowApi
                opt.UseInMemoryDatabase("LoanList"));
 
             services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CashflowApi", Version = "v1" });
+            });
+            services.AddCors(o => o.AddPolicy("LoanPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("LoanPolicy");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
