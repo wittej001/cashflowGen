@@ -19,7 +19,7 @@ export class TableViewComponent implements OnInit {
     rate: 6,
     cashflow: [
            {
-             month: 1,
+             month: 111,
              principal: 100,
              interest:  1,
              remaining_balance: 1
@@ -97,6 +97,12 @@ export class TableViewComponent implements OnInit {
     //as unkown as Loan was a quickfix... 
     this.loanSerivce.addLoan({ principal, rate, term } as unknown as Loan)
       .subscribe();
+    this.getAllData();
+  }
+
+  deleteLoan(loan : Loan){
+    this.loans = this.loans.filter(l => l !== loan);
+    this.loanSerivce.deleteLoan(loan).subscribe();
   }
 
   getAllData() : void{

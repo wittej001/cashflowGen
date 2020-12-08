@@ -34,6 +34,15 @@ export class LoanService {
     );
   }
 
+  deleteLoan(loan: Loan | number): Observable<Loan>{
+    const id = typeof loan === 'number' ? loan : loan.id;
+    const idUrl = `${this.url}/${id}`;
+
+    return this.http.delete<Loan>(idUrl, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted loan id=${id}`)),
+      catchError(this.handleError<Loan>('deleteLoan'))
+    );
+  }
 
 
   /** Log a HeroService message with the MessageService */

@@ -13,19 +13,21 @@
 </button>
 
 <table *ngFor="let loan of loans; let i = index">
-    <caption>Loan {{i+1}}</caption>
+    <caption>Loan {{i+1}}<button (click) = "deleteLoan(loan)">X</button></caption>
     <tr>
       <th>Month</th>
       <th>Interest</th>
       <th>Principal</th>
       <th>Remaining Balance</th>
     </tr>
-    <tr *ngFor="let entry of loan.cashflow">
-      <td>{{entry.month}}</td>
-      <td>{{entry.interest}}</td>
-      <td>{{entry.principal}}</td>
-      <td>{{entry.remaining_balance}}</td>
-    </tr>
+    <tbody>
+      <tr *ngFor="let entry of loan.cashflow">
+        <td>{{entry.month}}</td>
+        <td>${{entry.interest}}</td>
+        <td>${{entry.principal}}</td>
+        <td class="balance">${{entry.remaining_balance}}</td>
+      </tr>
+    </tbody>
   </table>
 
   <table >
@@ -36,10 +38,13 @@
       <th>Principal</th>
       <th>Remaining Balance</th>
     </tr>
-    <tr *ngFor="let entry of aggregate.cashflow">
-      <td>{{entry.month}}</td>
-      <td>{{entry.interest}}</td>
-      <td>{{entry.principal}}</td>
-      <td>{{entry.remaining_balance}}</td>
-    </tr>
+    <tbody>
+      <tr *ngFor="let entry of aggregate.cashflow">
+        <td>{{entry.month}}</td>
+        <td>${{entry.interest}}</td>
+        <td>${{entry.principal}}</td>
+        <td class="balance">${{entry.remaining_balance}}</td>
+      </tr>
+    </tbody>
+  
   </table>

@@ -29,13 +29,14 @@ namespace CashflowApi.Controllers
         }
 
         // GET: api/LoanItems/CashFlows?_ids=1,2,3,4
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<LoanItem>>> GetCashFlows()
+        [HttpGet("Cashflow")]
+        public async Task<IEnumerable<Cashflow>> GetCashFlows()
         {
             string _ids = HttpUtility.ParseQueryString(Request.QueryString.ToString()).Get("_ids");
             List<int> TagIds = _ids.Split(',').Select(int.Parse).ToList();
-            List<LoanItem> TagLoans = await _context.LoanItems.Where(loan => TagIds.contains(loan.Id))ToList();
-            return CalculateCashFlow(TagLoans);
+            List<LoanItem> TagLoans = await _context.LoanItems.Where(loan => TagIds.Contains(loan.Id)).ToListAsync();
+            LoanService service = new LoanService();
+            return service.CalculateCashflows(TagLoans);
         }
 
         // GET: api/LoanItems/5
