@@ -35,13 +35,13 @@ class LoanService
 
                 if (i < loan.Term) {
                     var loanRate = loan.Rate;
-                    var loanRemBalance = Math.Round(remainingBalanceById[loan.Id], 2, 2);
-                    var loanMonthlyPayment = Math.Round(monthlyPaymentById[loan.Id], 2, 2);
+                    var loanRemBalance = remainingBalanceById[loan.Id];
+                    var loanMonthlyPayment = Math.Round(monthlyPaymentById[loan.Id], 2);
                     var loanCashflow = cashflowById[loan.Id];
 
-                    var interestPayment = loanRemBalance * (loan.Rate / 1200);
-                    var principalPayment = Math.Round(loanMonthlyPayment - interestPayment, 2, 2);
-                    var newRemBalance = Math.Round(loanRemBalance - principalPayment, 2, 2);
+                    var interestPayment = Math.Round(loanRemBalance * (loan.Rate / 1200), 2);
+                    var principalPayment = Math.Round(loanMonthlyPayment - interestPayment, 2);
+                    var newRemBalance = Math.Round(loanRemBalance - principalPayment, 2);
 
                     aggregateInterest += interestPayment;
                     aggregatePrincipal += principalPayment;
