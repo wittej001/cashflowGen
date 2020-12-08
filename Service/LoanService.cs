@@ -6,23 +6,15 @@ class LoanService
     string LOAN_TYPE = "loan";
     string AGGREGATE_TYPE = "aggregate";
 
+    //Initialize dictionaries we use to make data easily accessible.
+    Dictionary<int, double> remainingBalanceById = new Dictionary<int, double>();
+    Dictionary<int, double> monthlyPaymentById = new Dictionary<int, double>();
+    Dictionary<int, Cashflow> cashflowById = new Dictionary<int, Cashflow>();
+
+    //Calculates cash flow by making each loan into a cashflow object made up of period(monthy cashflow statement) object
     public List<Cashflow> CalculateCashflows(List<LoanItem> TagLoans)
     {
-        Dictionary<int, double> remainingBalanceById = new Dictionary<int, double>();
-        Dictionary<int, double> monthlyPaymentById = new Dictionary<int, double>();
-        Dictionary<int, Cashflow> cashflowById = new Dictionary<int, Cashflow>();
-        
-        int longestLoan = 0;
-        foreach (LoanItem loan in TagLoans) {
-            remainingBalanceById.Add(loan.Id, loan.Principal);
-            monthlyPaymentById.Add(loan.Id, loan.Principal * (loan.Rate/1200) / (1 - Math.Pow((1 + loan.Rate/1200), (-1 * loan.Term))));
-            cashflowById.Add(loan.Id, new Cashflow(loan.Id, loan.Principal, loan.Term, loan.Rate, LOAN_TYPE));
-
-            if (loan.Term > longestLoan) {
-                longestLoan = loan.Term;
-            };
-        };
-
+        int longestLoan = FindLongestLoan(TagLoans);
         Cashflow aggregateCashflow = new Cashflow(0, 0, 0, 0, AGGREGATE_TYPE);
 
         int i = 0;
@@ -36,12 +28,12 @@ class LoanService
                 if (i < loan.Term) {
                     var loanRate = loan.Rate;
                     var loanRemBalance = remainingBalanceById[loan.Id];
-                    var loanMonthlyPayment = monthlyPaymentById[loan.Id];
+                    var loanMonthlyPayment = Math.Round(monthlyPaymentById[loan.Id], 2);
                     var loanCashflow = cashflowById[loan.Id];
 
-                    var interestPayment = loanRemBalance * (loan.Rate / 1200);
-                    var principalPayment = loanMonthlyPayment - interestPayment;
-                    var newRemBalance = loanRemBalance - principalPayment;
+                    var interestPayment = Math.Round(loanRemBalance * (loan.Rate / 1200), 2);
+                    var principalPayment = Math.Round(loanMonthlyPayment - interestPayment, 2);
+                    var newRemBalance = Math.Round(loanRemBalance - principalPayment, 2);
 
                     aggregateInterest += interestPayment;
                     aggregatePrincipal += principalPayment;
@@ -71,5 +63,19 @@ class LoanService
 
         return cashflowList;
 
+    }
+    //finds the longesr loan and catergorizes the loans into dictionaries by id 
+    public int FindLongestLoam(List<LoanItem> TagLoans){
+        int longestLoan = 0;
+        foreach (LoanItem loan in TagLoans) {
+            remainingBalanceById.Add(loan.Id, loan.Principal);
+            monthlyPaymentById.Add(loan.Id, loan.Principal * (loan.Rate/1200) / (1 - Math.Pow((1 + loan.Rate/1200), (-1 * loan.Term))));
+            cashflowById.Add(loan.Id, new Cashflow(loan.Id, loan.Principal, loan.Term, loan.Rate, LOAN_TYPE));
+
+            if (loan.Term > longestLoan) {
+                longestLoan = loan.Term;
+            };
+        };
+        return longestLoan;
     }
 }
