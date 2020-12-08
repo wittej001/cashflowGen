@@ -34,8 +34,8 @@ namespace CashflowApi.Controllers
         {
             string _ids = HttpUtility.ParseQueryString(Request.QueryString.ToString()).Get("_ids");
             List<int> TagIds = _ids.Split(',').Select(int.Parse).ToList();
-            if(TagIds.Length < 1){
-                List<Cashflow> EmptyList = new List<Cashflow>;
+            if(TagIds.Count < 1){
+                List<Cashflow> EmptyList = new List<Cashflow>();
                 return EmptyList;
             }
             List<LoanItem> TagLoans = await _context.LoanItems.Where(loan => TagIds.Contains(loan.Id)).ToListAsync();
@@ -48,6 +48,10 @@ namespace CashflowApi.Controllers
         public async Task<IEnumerable<Cashflow>> GetAllCashFlows()
         {
             List<LoanItem> TagLoans = await _context.LoanItems.ToListAsync();
+            if(TagLoans.Count < 1){
+                List<Cashflow> EmptyList = new List<Cashflow>();
+                return EmptyList;
+            }
             LoanService service = new LoanService();
             return service.CalculateCashflows(TagLoans);
         }

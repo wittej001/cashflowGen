@@ -39,14 +39,14 @@ class LoanService
                     aggregatePrincipal += principalPayment;
                     aggregateRemBalance += newRemBalance;
                     
-                    loanCashflow.Payments.Add(new Period(i + 1, Math.Round(interestPayment), Math.Round(principalPayment), Math.Round(newRemBalance)));
+                    loanCashflow.Payments.Add(new Period(i + 1, Math.Round(interestPayment, 2), Math.Round(principalPayment, 2), Math.Round(newRemBalance, 2)));
 
                     remainingBalanceById[loan.Id] = newRemBalance;
                 }
 
             };
 
-            aggregateCashflow.Payments.Add(new Period(i + 1, aggregateInterest, aggregatePrincipal, aggregateRemBalance));
+            aggregateCashflow.Payments.Add(new Period(i + 1, Math.Round(aggregateInterest, 2), Math.Round(aggregatePrincipal, 2), Math.Round(aggregateRemBalance, 2)));
             
             i += 1;
         };
