@@ -38,6 +38,16 @@ namespace CashflowApi.Controllers
             LoanService service = new LoanService();
             return service.CalculateCashflows(TagLoans);
         }
+        
+        // GET: api/LoanItems/AllCashflows
+        [HttpGet("AllCashflows")]
+        public async Task<IEnumerable<Cashflow>> GetCashFlows()
+        {
+            List<LoanItem> TagLoans = await _context.LoanItems.ToListAsync();
+            LoanService service = new LoanService();
+            return service.CalculateCashflows(TagLoans);
+        }
+
 
         // GET: api/LoanItems/5
         [HttpGet("{id}")]
