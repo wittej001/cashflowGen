@@ -33,22 +33,24 @@ class LoanService
 
             foreach( LoanItem loan in TagLoans) {
 
-                var loanRate = loan.Rate;
-                var loanRemBalance = remainingBalanceById[loan.Id];
-                var loanMonthlyPayment = monthlyPaymentById[loan.Id];
-                var loanCashflow = cashflowById[loan.Id];
+                if (i < loan.Term) {
+                    var loanRate = loan.Rate;
+                    var loanRemBalance = remainingBalanceById[loan.Id];
+                    var loanMonthlyPayment = monthlyPaymentById[loan.Id];
+                    var loanCashflow = cashflowById[loan.Id];
 
-                var interestPayment = loanRemBalance * (loan.Rate / 1200);
-                var principalPayment = loanMonthlyPayment - interestPayment;
-                var newRemBalance = loanRemBalance - loanMonthlyPayment;
+                    var interestPayment = loanRemBalance * (loan.Rate / 1200);
+                    var principalPayment = loanMonthlyPayment - interestPayment;
+                    var newRemBalance = loanRemBalance - principalPayment;
 
-                aggregateInterest += interestPayment;
-                aggregatePrincipal += principalPayment;
-                aggregateRemBalance += newRemBalance;
+                    aggregateInterest += interestPayment;
+                    aggregatePrincipal += principalPayment;
+                    aggregateRemBalance += newRemBalance;
 
-                loanCashflow.Payments.Add(new Period(i + 1, interestPayment, principalPayment, newRemBalance));
+                    loanCashflow.Payments.Add(new Period(i + 1, interestPayment, principalPayment, newRemBalance));
 
-                remainingBalanceById[loan.Id] = newRemBalance;
+                    remainingBalanceById[loan.Id] = newRemBalance;
+                }
 
             };
 
