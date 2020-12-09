@@ -10,23 +10,33 @@ import { Loan } from './Loan';
 })
 export class LoanService {
 
-  private url = 'api/';  // URL to web api
+  private url = 'https://localhost:5001/api/LoanItems';  // URL to web api
+  private cashflowUrl = 'https://localhost:5001/api/LoanItems/AllCashFlows';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient,) { }
+  constructor(private http: HttpClient) { }
   
-  /** GET heroes from the server */
+  /** GET loans from the server */
   getAllData(): Observable<Loan[]> {
-    return this.http.get<Loan[]>(this.url)
+    return this.http.get<Loan[]>(this.cashflowUrl)
       .pipe(
-        tap(_ => this.log('fetched heroes')),
-        catchError(this.handleError<Loan[]>('getHeroes', []))
+        tap(_ => this.log('fetched loans')),
+        catchError(this.handleError<Loan[]>('getLoans', []))
       );
   }
 
-  /** Log a HeroService message with the MessageService */
+  /** POST: add a new loan to the server */
+  addLoan(loan: Loan): Observable<Loan> {
+    return this.http.post<Loan>(this.url, loan, this.httpOptions).pipe(
+      tap((newLoan: Loan) => this.log(`added loan w/ id=${newLoan.id}`)),
+      catchError(this.handleError<Loan>('addLoan'))
+    );
+  }
+
+
+  /** Log a loanService message with the MessageService */
   private log(message: string) {
     console.log(message);
   }
@@ -35,7 +45,7 @@ export class LoanService {
     const id = typeof loan === 'number' ? loan : loan.id;
     const idUrl = `${this.url}/${id}`;
 
-    return this.http.delete<Loan>(this.url, this.httpOptions).pipe(
+    return this.http.delete<Loan>(idUrl, this.httpOptions).pipe(
       tap(_ => this.log(`deleted loan id=${id}`)),
       catchError(this.handleError<Loan>('deleteLoan'))
     );
