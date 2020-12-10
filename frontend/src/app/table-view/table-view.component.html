@@ -3,72 +3,47 @@
     <div class='title-container flex'>
       <h2>Table View</h2>
     </div>
+    <div class='description-container flex'>
+      <p>The cashflows for the selected loans are displayed below. If no loans were selected, the cashflows of all the loans will be displayed by default.</p>
+    </div>
+    <div class='input-container'>
+      <div class='input-wrapper left'>
+        <div class='flex'>
+          <label>Loan amount:
+            <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" #balance />
+          </label>
+        </div>
+      </div>
+      <div class='input-wrapper'>
+        <div class='flex'>
+          <label>Duration of Loan:
+            <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" #term />
+          </label>
+        </div>
+      </div>
+      <div class='input-wrapper'>
+        <div class='flex'>
+          <label>Interest:
+            <input type="number"#interest />
+          </label>
+        </div>
+      </div>
+      <div class='input-wrapper'>
+        <div class='flex'>
+          <button class='add-loan' (click)="newLoan(balance.value, term.value, interest.value); balance.value=''; term.value=''; interest.value=''">
+            Add Loan
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class='input-container'>
-    <div class='input-wrapper left'>
-      <div class='flex'>
-        <label>Loan amount:
-          <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" #balance />
-        </label>
-      </div>
-    </div>
-    <div class='input-wrapper'>
-      <div class='flex'>
-        <label>Term/Duration of Loan:
-          <input type="number" onkeyup="if(this.value<0){this.value= this.value * -1}" #term />
-        </label>
-      </div>
-    </div>
-    <div class='input-wrapper'>
-      <div class='flex'>
-        <label>Interest:
-          <input type="number"#interest />
-        </label>
-      </div>
-    </div>
-    <div class='input-wrapper'>
-      <div class='flex'>
-        <button class='add-loan' (click)="newLoan(balance.value, term.value, interest.value); balance.value=''; term.value=''; interest.value=''">
-          Add Loan
-        </button>
-      </div>
-    </div>
-  </div>
+  
   <div class='tables-container'>
-  <table *ngFor="let loan of loans; let i = index">
-    <caption>Loan {{i+1}}<button class='ex' (click) = "deleteLoan(loan)">X</button></caption>
-    <tr>
-      <th>Month</th>
-      <th>Interest</th>
-      <th>Principal</th>
-      <th>Remaining Balance</th>
-    </tr>
-    <tbody>
-      <tr *ngFor="let entry of loan.payments">
-        <td>{{entry.month}}</td>
-        <td>${{entry.interestPayment.toFixed(2)}}</td>
-        <td>${{entry.principalPayment.toFixed(2)}}</td>
-        <td class="balance">${{entry.remainingBalance.toFixed(2)}}</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <table *ngIf="loans.length > 1">
-    <caption>Aggregate pool</caption>
-    <tr>
-      <th>Month</th>
-      <th>Interest</th>
-      <th>Principal</th>
-      <th>Remaining Balance</th>
-    </tr>
-    <tbody>
-      <tr *ngFor="let entry of aggregate?.payments">
-        <td>{{entry.month}}</td>
-        <td>${{entry.interestPayment.toFixed(2)}}</td>
-        <td>${{entry.principalPayment.toFixed(2)}}</td>
-        <td class="balance">${{entry.remainingBalance.toFixed(2)}}</td>
-      </tr>
-    </tbody>
-  
-  </table>
+  <div class='table-container' *ngFor="let loan of loans; let i = index">
+    <app-loan-detail caption='Loan ID: {{loan.id}}' [loan]=loan [tableView]=this></app-loan-detail>
+</div>
+<div class='table-container'>
+  <app-loan-detail *ngIf="loans.length > 1" caption='Aggregate pool' [loan]=aggregate [tableView]=this></app-loan-detail>
+</div>
+
 </div>

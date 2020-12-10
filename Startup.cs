@@ -29,7 +29,8 @@ namespace CashflowApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<LoanContext>(opt =>
-               opt.UseInMemoryDatabase("LoanList"));
+               opt.UseInMemoryDatabase("LoanItemsList"));
+               //UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

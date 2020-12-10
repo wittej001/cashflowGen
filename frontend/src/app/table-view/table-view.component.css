@@ -15,8 +15,11 @@ tbody tr:nth-child(odd) {
       width: 150px;
   }
 
-  table {
-      margin-top: 30px;
+  .table-container {
+      height: 500px;
+      margin: 30px 50px;
+      overflow: auto;
+      border-bottom: solid rgb(54, 54, 68) 1px;
   }
 
   .input-wrapper {
@@ -27,6 +30,7 @@ tbody tr:nth-child(odd) {
 
   .input-wrapper input {
       width: 100px;
+      margin-left: 20px;
   }
 
   .input-wrapper button {
@@ -44,26 +48,38 @@ tbody tr:nth-child(odd) {
     color: white;
 }
 
-  
-
   .input-container {
       display: flex;
       justify-content: space-around;
-      width: 78vw;
+      border-top: solid rgb(54, 54, 68) 1px;
+      border-bottom: solid rgb(54, 54, 68) 1px;
+      width: 100%;
+      margin: 0;
   }
 
   .tables-container {
-      overflow: scroll;
-      height: 600px;
+      display: flex;
+      overflow: auto;
+      height: 70vh;
+      flex-wrap: wrap;
+     
   }
 
-.ex {
-    margin-left: 5px;
-    padding: 1px 3px;
+  .ex {
+    font-size: 10px;
+    margin-left: 40px;
+    padding: 1px 4px;
     cursor: pointer;
     border-radius: 24px;
+    background-color: white;
+    color: red;
+    border: solid red 2px;
 }
 .ex:hover {
     background-color: red;
     color: white;
+}
+
+caption {
+    font-size: 30px;
 }

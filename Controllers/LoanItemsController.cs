@@ -28,7 +28,7 @@ namespace CashflowApi.Controllers
             return await _context.LoanItems.ToListAsync();
         }
 
-        // GET: api/LoanItems/CashFlows?_ids=1,2,3,4
+        // GET: api/LoanItems/Cashflows?_ids=1,2,3,4
         [HttpGet("Cashflows")]
         public async Task<IEnumerable<Cashflow>> GetCashFlows()
         {
